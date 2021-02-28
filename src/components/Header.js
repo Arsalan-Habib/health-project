@@ -4,7 +4,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 const Header = () => {
     return (
-        <Navbar bg='dark' variant='dark'>
+        <Navbar bg='dark' variant='dark' className='px-5 py-2' sticky='top'>
             <LinkContainer to='/'>
                 <Navbar.Brand>Navbar</Navbar.Brand>
             </LinkContainer>
@@ -13,8 +13,10 @@ const Header = () => {
                 <LinkContainer to='/login'>
                     <Nav.Link>Login</Nav.Link>
                 </LinkContainer>
-                <Nav.Link href='#features'>Features</Nav.Link>
-                <Nav.Link href='#pricing'>Pricing</Nav.Link>
+
+                <LinkContainer to='/about'>
+                    <Nav.Link>About</Nav.Link>
+                </LinkContainer>
             </Nav>
         </Navbar>
     );
