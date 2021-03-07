@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
 
-const uri =
-    "mongodb+srv://health-project:health-project@health-project.d1qyf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-
 const connectDB = async () => {
     try {
-        const conn = await mongoose.connect(uri, {
+        const conn = await mongoose.connect(process.env.MONGO_URI, {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             useCreateIndex: true,
