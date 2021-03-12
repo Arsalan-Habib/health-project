@@ -1,28 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { UserContext } from "../context/userState";
 import FormContainer from "../components/FormContainer";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const { user, userLogin } = useContext(UserContext);
+
     const submitHandler = async (e) => {
         e.preventDefault();
-        const config = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-
-        const { data } = await axios.post(
-            "/api/users/login",
-            { email, password },
-            config
-        );
-
-        console.log(data);
+        userLogin(email, password);
+        console.log(user);
     };
 
     return (
