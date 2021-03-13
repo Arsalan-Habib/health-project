@@ -15,7 +15,7 @@ function App() {
                 <main className='py-3'>
                     <Container>
                         <Route path='/login' component={LoginScreen} />
-                        <Route path='/signup' component={RegisterScreen} />
+                        <Route path='/register' component={RegisterScreen} />
                     </Container>
                 </main>
             </UserProvider>

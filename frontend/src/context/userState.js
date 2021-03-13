@@ -1,10 +1,10 @@
 import React, { createContext, useReducer } from "react";
 import AppReducer from "./AppReducer";
 import axios from "axios";
-import { USER_LOGIN_SUCCESS } from "./constants";
+import { USER_LOGIN_FAIL, USER_LOGIN_SUCCESS } from "./constants";
 
 const initialState = {
-    user: {},
+    user: null,
     error: null,
 };
 
@@ -38,7 +38,10 @@ export const UserProvider = ({ children }) => {
                 payload: data,
             });
         } catch (error) {
-            console.log("login error");
+            dispatch({
+                type: USER_LOGIN_FAIL,
+                payload: error.message,
+            });
         }
     };
 
