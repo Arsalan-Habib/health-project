@@ -2,6 +2,7 @@ const express = require("express");
 const connectDB = require("./config.js");
 const dotenv = require("dotenv");
 const { authUser, registerUser } = require("./routes/userRoutes.js");
+const { errorHandler } = require("./utils.js");
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ connectDB.connectDB();
 
 app.post("/api/users", registerUser);
 app.post("/api/users/login", authUser);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
