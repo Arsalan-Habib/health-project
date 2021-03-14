@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../context/userState";
 import FormContainer from "../components/FormContainer";
 import { Form, Button } from "react-bootstrap";
+import Message from "../components/Message";
 
 const LoginScreen = ({ location, history }) => {
     // local component level state
@@ -10,7 +11,7 @@ const LoginScreen = ({ location, history }) => {
     const [password, setPassword] = useState("");
 
     // getting the user state and the userLogin function
-    const { user, userLogin } = useContext(UserContext);
+    const { user, error, userLogin } = useContext(UserContext);
 
     // deciding where to redirect
     const redirect = location.search ? location.search.split("=")[1] : "/";
@@ -26,16 +27,17 @@ const LoginScreen = ({ location, history }) => {
     const submitHandler = async (e) => {
         e.preventDefault();
         userLogin(email, password);
-        console.log(user);
     };
 
     return (
         <FormContainer>
+            <h1 className='mt-5 text-center'>Sign In</h1>
+            {error && <Message>{error}</Message>}
             <Form onSubmit={submitHandler}>
-                <h1 className='mt-5 text-center'>Sign In</h1>
                 <Form.Group controlId='email'>
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
+                        required
                         type='email'
                         placeholder='admin@example.com'
                         value={email}
@@ -45,6 +47,7 @@ const LoginScreen = ({ location, history }) => {
                 <Form.Group controlId='password'>
                     <Form.Label>Password</Form.Label>
                     <Form.Control
+                        required
                         type='password'
                         placeholder='admin'
                         value={password}

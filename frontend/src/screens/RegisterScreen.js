@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import FormContainer from "../components/FormContainer";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
+import { UserContext } from "../context/userState";
 
-const RegisterScreen = () => {
+const RegisterScreen = ({ location, history }) => {
+    // local component level state
     const [state, setState] = useState({
         firstName: "",
         lastName: "",
@@ -17,33 +18,41 @@ const RegisterScreen = () => {
         confirmPassword: "",
     });
 
+    // updates local state
     const onChangeHandler = (e) => {
         setState({ ...state, [e.target.name]: e.target.value });
         console.log(state);
     };
 
+    // getting the user state and the userRegister function
+    const { user, userRegister } = useContext(UserContext);
+
+    // deciding where to redirect
+    const redirect = location.search ? location.search.split("=")[1] : "/";
+
+    // redirecting after successful registration
+    useEffect(() => {
+        if (user) {
+            history.push(redirect);
+        }
+    }, [history, user, redirect]);
+
+    // dispatching the userRegister function
     const submitHandler = async (e) => {
         e.preventDefault();
 
+        // checking if the passwords don't match
         if (state.password !== state.confirmPassword) {
             window.alert("passwords do not match");
         } else {
-            const config = {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            };
-
-            const { data } = await axios.post("/api/users", state, config);
-
-            console.log(data);
+            userRegister(state);
         }
     };
 
     return (
-        <Form onSubmit={submitHandler}>
-            <FormContainer>
-                <h1 className='my-2 text-center'>Create Account </h1>
+        <FormContainer>
+            <h1 className='my-2 text-center'>Create Account </h1>
+            <Form onSubmit={submitHandler}>
                 <Form.Group controlId='fname'>
                     <Form.Label>First Name</Form.Label>
                     <Form.Control
@@ -167,8 +176,8 @@ const RegisterScreen = () => {
                     Already have an account?
                     <Link to={"/login"}> Sign In </Link>
                 </p>
-            </FormContainer>
-        </Form>
+            </Form>
+        </FormContainer>
     );
 };
 
